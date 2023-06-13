@@ -13,9 +13,11 @@ class IndexView(generic.ListView):
     context_object_name = "latest_question_list"
 
     def get_queryset(self) -> QuerySet[Any]:
-        """ Return the last 5 published questions (not including those in the future). """
+        """ 
+        Return the last 5 published questions (not including those in the future). 
+        """
         return Question.objects.filter(pub_date__lte=timezone.now()).order_by("-pub_date")[:5]
-    
+
 class DetailView(generic.DetailView):
     model = Question
     template_name = "polls/detail.html"

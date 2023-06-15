@@ -2,6 +2,7 @@
 Base settings to build other settings files upon.
 """
 from pathlib import Path
+import json, os, environ
 from django.core.exceptions import ImproperlyConfigured
 
 def get_env_variable(var_name):
@@ -12,7 +13,18 @@ def get_env_variable(var_name):
         error_msg = 'Set the {} environment variable'.format(var_name)
         raise ImproperlyConfigured(error_msg)
 
-import environ, os
+with open('secrets.json') as f:
+    secrets = json.load(f)
+
+def get_secret(setting, secrets=secrets):
+    '''Get the secret variable or return explicit exception.'''
+    try:
+        return secrets[setting]
+    except KeyError:
+        error_msg = 'Set the {0} environment variable'.format(setting)
+        raise ImproperlyConfigured(error_msg)
+
+SECRET_KEY = get_secret('SECRET_KEY')
 
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent.parent
 # icecreamratings/

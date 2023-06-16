@@ -6,7 +6,7 @@ class TimeStampedModel(models.Model):
     fields for `created` and `modified`.
     """
     created = models.DateTimeField(auto_now_add=True)
-    modified = models.DatETimeField(auto_now=True)
+    modified = models.DateTimeField(auto_now=True)
 
     class Meta:
         abstract = True

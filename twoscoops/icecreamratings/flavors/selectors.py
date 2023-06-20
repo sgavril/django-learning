@@ -1,4 +1,5 @@
 from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import Q
 
 from .models import Flavour
 from store.exceptions import OutOfStock, CorruptedDatabase

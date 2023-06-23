@@ -1,6 +1,0 @@
-[submodule "recipe-app-api"]
-	path = recipe-app-api
-	url = https://github.com/sgavril/recipe-app-api
-[submodule "profiles-rest-api"]
-	path = profiles-rest-api
-	url = https://github.com/sgavril/profiles-rest-api

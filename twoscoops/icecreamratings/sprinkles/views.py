@@ -26,3 +26,5 @@ def sprinkle_preview(request: HttpRequest) -> HttpResponse:
     """ Preview of new sprinkle, but without check_sprinkles """
     sprinkle = Sprinkle.objects.all()
     return render(request, "sprinkles/sprinkle_preview.html")
+
+

@@ -1,17 +1,17 @@
 from rest_framework import status
 from rest_framework.decorators import api_view
-from rest_framework.response import REsponse
+from rest_framework.response import Response
 from snippets.models import Snippet
 from snippets.serializers import SnippetSerializer
 
 # snippet_list view only responds to GET and POST
 @api_view(['GET', 'POST'])
-def snippet_list(request):
+def snippet_list(request, format=None):
     """ List all code snippets/create a new snippet. """
     if request.method == 'GET':
         snippet = Snippet.objects.all()
         serializer = SnippetSerializer(snippet, many=True)
-        return JsonResponse(serializer.data, safe=False)
+        return Response(serializer.data)
 
     elif request.method == 'POST':
         serializer = SnippetSerializer(data=data)
@@ -21,7 +21,7 @@ def snippet_list(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET', 'PUT', 'DELETE'])
-def snippet_detail(request, pk):
+def snippet_detail(request, pk, format=None):
     """
     Retrieve, update or delete a code snippet.
     """

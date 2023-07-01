@@ -31,3 +31,10 @@ class UserList(generics.ListAPIView):
 class UserDetail(generics.RetrieveAPIView):
     queryset = User.objects.all()
     serializer_class = SnippetSerializer
+
+@api_view(['GET'])
+def api_root(request, format=None):
+    return Response(
+        {'users': reverse('user-list', request=request, format=format),
+        'snippets': reverse('snippet-list', request=request, format=format)
+        })

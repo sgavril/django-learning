@@ -43,4 +43,9 @@ def api_root(request, format=None):
     })
 
 class SnippetHighlight(generics.GenericAPIView):
-    pass
+    queryset = Snippet.objects.all()
+    renderer_classes =[renderers.StaticHTMLRenderer]
+
+    def get(self, request, *args, **kwargs):
+        snippet = self.get_object()
+        return Response(snippet.highlighted)

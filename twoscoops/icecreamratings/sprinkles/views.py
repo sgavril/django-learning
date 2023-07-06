@@ -10,8 +10,8 @@ def sprinkle_list(request: HttpRequest) -> HttpResponse:
     request = check_sprinkles(request)
 
     return render(request,
-    "sprinkles/sprinkle_list.html",
-    {"sprinkles": Sprinkle.objects.all()})
+        "sprinkles/sprinkle_list.html",
+        {"sprinkles": Sprinkle.objects.all()})
 
 def sprinkle_detail(request: HttpRequest, pk: int) -> HttpResponse:
     """Standard detail view."""
@@ -25,6 +25,15 @@ def sprinkle_detail(request: HttpRequest, pk: int) -> HttpResponse:
 def sprinkle_preview(request: HttpRequest) -> HttpResponse:
     """ Preview of new sprinkle, but without check_sprinkles """
     sprinkle = Sprinkle.objects.all()
-    return render(request, "sprinkles/sprinkle_preview.html")
+    return render(request,
+        "sprinkles/sprinkle_preview.html",
+        {"sprinkle": sprinkle})
 
+class SprinkleDetail(DetailView):
+    """ Standard detail view. """
+    model = Sprinkle
+
+    def dispatch(self, request, *args, **kwargs):
+        request = check_sprinkles(request)
+        return super().dispatch(request, *args, **kwargs)
 

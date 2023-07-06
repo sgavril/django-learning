@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or404
 from django.http import HttpRequest, HttpResponse
 
+from .decorators import check_sprinkles
 from .models import Sprinkle
 from .utils import check_sprinkle_rights
 
@@ -13,6 +14,7 @@ def sprinkle_list(request: HttpRequest) -> HttpResponse:
         "sprinkles/sprinkle_list.html",
         {"sprinkles": Sprinkle.objects.all()})
 
+@check_sprinkles
 def sprinkle_detail(request: HttpRequest, pk: int) -> HttpResponse:
     """Standard detail view."""
     request = check_sprinkles(request)

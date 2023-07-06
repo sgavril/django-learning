@@ -1,35 +1,23 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib import messages
 from django.utils.functional import cached_property
 from django.views.generic import CreateView, UpdateView, TemplateView
 
-from .models import Flavour
-from .mixins import FreshFruitMixin, FavoriteMixin
+from .models import Flavor
+from .mixins import FreshFruitMixin, FavoriteMixin, FlavorActionMixin
 from .tasks import update_user_who_favorited
 
-class FlavorCreateView(LoginRequiredMixin, CreateView):
+class FlavorCreateView(LoginRequiredMixin,
+                       FlavorActionMixin,
+                       CreateView):
     model = Flavor
-    fields = ['title', 'slug', 'scoops_remaining']
-
-    def form_valid(self, form):
-        # Custom logic here
-        return super().form_valid(form)
-
-    def form_invlaid(self, form):
-        # Custom logic here
-        return super().form_invalid(form)
+    success_msg = "Flavor created!"
 
 class FlavorUpdateView(LoginRequiredMixin,
-                       FavoriteMixin,
+                       FlavorActionMixin(),
                        UpdateView):
     model = Flavor
-    fields = ['title', 'slug', 'scoops_remaining']
-
-    def form_valid(self, form):
-        update_user_who_favorited(
-            instance=self.object,
-            favorites=self.likes_and_favorites['favorites']
-        )
-        return super().form_valid(form)
+    success_msg = "Flavor updated!"
 
 class FlavorDetailView(LoginRequiredMixin,
                        FavoriteMixin,

@@ -1,7 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.utils.functional import cached_property
-from django.views.generic import CreateView, UpdateView, TemplateView
+from django.views.generic import CreateView, UpdateView, TemplateView, ListView
 
 from .models import Flavor
 from .mixins import FreshFruitMixin, FavoriteMixin, FlavorActionMixin
@@ -26,3 +26,17 @@ class FlavorDetailView(LoginRequiredMixin,
 
 class FruityFlavorView(FreshFruitMixin, TemplateView):
     template_name = "fruity_flavour.html"
+
+class FlavorListView(ListView):
+    model = Flavor
+
+    def get_queryset(self):
+        # Fetch queryset from parent
+        queryset = super().get_queryset()
+
+        # Get the q GET parameter
+        q = self.request.GET.get("q")
+        if q:
+            return queryset.filter(title__icontains=q)
+
+        return queryset

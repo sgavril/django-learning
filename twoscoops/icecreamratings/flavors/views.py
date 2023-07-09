@@ -48,6 +48,12 @@ def flavor_view(request):
 class FlavorView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         flavor = get_object_or_404(Flavor, slug=kwargs['slug'])
+
+        response = HttpResponse(content_type='application/pdf')
+        response = make_flavor_pdf(response, flavor)
+
+        return response
+
         return render(request,
             "flavors/flavor_detail.html",
             {"flavour": flavor}

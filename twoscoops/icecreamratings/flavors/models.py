@@ -5,7 +5,9 @@ from core.models import TimeStampedModel
 class Flavour(TimeStampedModel):
     title = models.CharField(max_length=200)
 
-class Flavor(models.Model):
+class Flavor(TastyTitleAbstractModel):
+    slug = models.SlugField()
+
     class Scoops(models.IntegerChoices):
         SCOOPS_0 = 0
         SCOOPS_1 = 1

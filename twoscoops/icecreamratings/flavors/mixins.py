@@ -19,6 +19,7 @@ class FavoriteMixin:
         }
 
 class FlavorActionMixin:
+    model = Flavor
 
     fields = ['title', 'slug', 'scoops_remaining']
 

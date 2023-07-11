@@ -4,6 +4,7 @@ from django.utils.functional import cached_property
 from django.views.generic import CreateView, UpdateView, TemplateView, ListView, View
 from django.shortcuts import get_object_or_404, render, redirect
 
+from .forms import Flavor
 from .models import Flavor
 from .mixins import FreshFruitMixin, FavoriteMixin, FlavorActionMixin
 from .tasks import update_user_who_favorited
@@ -11,14 +12,14 @@ from .tasks import update_user_who_favorited
 class FlavorCreateView(LoginRequiredMixin,
                        FlavorActionMixin,
                        CreateView):
-    model = Flavor
     success_msg = "Flavor created!"
+    form_class = FlavorForm
 
 class FlavorUpdateView(LoginRequiredMixin,
-                       FlavorActionMixin(),
+                       FlavorActionMixin,
                        UpdateView):
-    model = Flavor
     success_msg = "Flavor updated!"
+    form_class = FlavorForm
 
 class FlavorDetailView(LoginRequiredMixin,
                        FavoriteMixin,
@@ -53,11 +54,6 @@ class FlavorView(LoginRequiredMixin, View):
         response = make_flavor_pdf(response, flavor)
 
         return response
-
-        return render(request,
-            "flavors/flavor_detail.html",
-            {"flavour": flavor}
-        )
 
     def post(self, request, *args, **kwargs):
         flavor = get_object_or_404(Flavor, slug=kwargs['slug'])

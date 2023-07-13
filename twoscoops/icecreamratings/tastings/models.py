@@ -3,7 +3,7 @@ from core.models import TimeStampedModel
 
 
 class Taster(models.Model):
-    name = models.Charfield(max_length=200)
+    name = models.CharField(max_length=200)
 
 class Tasting(TimeStampedModel):
     title = models.CharField(max_length=200)

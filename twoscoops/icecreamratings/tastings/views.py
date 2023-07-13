@@ -1,5 +1,6 @@
 from django.shortcuts import reverse
 from django.views.generic import ListView, DetailView, UpdateView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import Tasting, Taster
 from .forms import TasterForm

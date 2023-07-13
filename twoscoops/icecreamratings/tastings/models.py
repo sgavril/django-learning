@@ -2,6 +2,8 @@ from django.db import models
 from core.models import TimeStampedModel
 
 
-# Create your models here.
+class Taster(models.Model):
+    name = models.Charfield(max_length=200)
+
 class Tasting(TimeStampedModel):
     title = models.CharField(max_length=200)
